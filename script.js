@@ -22,7 +22,7 @@ $("#gameBoard > div > div").click(function(){
 });
 //making a game board as an array
 var gameBoard = [
-	[["R",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[["R",1],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
@@ -42,6 +42,18 @@ var endPos = [];
 // setting phase for set-up or play
 var gamePhase = "play";
 
+function changePlayer() {
+	startPos = [];
+	endPos = [];
+	if (playerTurn === "R"){
+		playerTurn = "B";
+		//$("#messageBox").html("Blue's Turn!");
+	} else {
+		playerTurn = "R";
+		//$("#messageBox").html("Red's Turn!");
+	}
+}
+
 //checking the legality of a move
 var moveCheck = function(row, col){
 	endPos.push(parseInt(row));
@@ -57,7 +69,7 @@ var moveCheck = function(row, col){
 			startPos = [];
 			endPos = [];
 		$("#messageBox").html("Sorry.  Bombs don't move.");
-	}	else if (!checkMoveUp() || !checkMoveDown() || !checkMoveRight() || !checkMoveLeft()) {
+	}	else if (!checkMoveUp() && !checkMoveDown() && !checkMoveRight() && !checkMoveLeft()) {
 			startPos = [];
 			endPos = [];
 			$("#messageBox").html("Sorry - pieces can only move exactly one space at a time.  Please select a piece to move.");
@@ -71,7 +83,7 @@ var moveCheck = function(row, col){
 			startPos = [];
 			endPos = [];			
 	}	else if (gameBoard[endPos[0]][endPos[1]][0] !== 0){
-			fightCheck(elem);
+			fightCheck();
 	}	else {
 			movePiece();
 	}
@@ -114,23 +126,49 @@ function checkMoveleft(){
 // 	}
 // }
 var fightCheck = function(){
-	$("div[data-row="+startPos[0]+"],[div[data-col="+startPos[1]+"]").removeAttr("data-color data-value");//need line to clear .data-color and /data-value from start div
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"]").removeAttr("data-color data-value");
+	
 	if (gameBoard[endPos[0]][endPos[1]][1] === "f"){
 		win();
 	} else if (nonMinerVsBomb()){
-		$("#messageBox").html("BOOM! "+ startPos[2]+ " " + startPos[3] + " found a bomb.");
+		$("#messageBox").html("BOOM! "+ startPos[2]+ " " + startPos[3] + " found a bomb. He didn't survive.");
+		changePlayer();
 
 	} else if (minerVsBomb()){
 		$("#messageBox").html(startPos[2] + " " + startPos[3] + " defused a bomb!");
-		move();
-	} else if (spyVsMarshall){
+		movePiece();
+	} else if (spyVsMarshall()){
 		$("#messageBox").html(startPos[2] + " Spy killed the enemy marshall!");
-		move();
-	} else if (spyVsNotMarshall){
-		$("#messageBox").html(startPos[2] + "Spy was killed by " + endPos[2] + " " + endPos[3] +"."]);
+		movePiece();
+	} else if (spyVsNotMarshall()){
+		$("#messageBox").html(startPos[2] + " Spy was killed by " + endPos[2] + " " + endPos[3] +".");
+		changePlayer();
+	} else if (marshallVsSpy()){
+		$("#messageBox").html(startPos[2] + " Marshall attacked the enemy spy! The marshall died!");
+		changePlayer();
+	} else if (notMarshallVsSpy()){
+		$("#messageBox").html(startPos[2] + " " + startPos[3] + " killed the enemy spy!");
+		movePiece();
+	} else if (sameValue()){
+		$("#messageBox").html(startPos[2] + " " + startPos[3] + " attacked " + endPos[2] + " " + endPos[3] + ". They both died.");
+		$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"]").removeAttr("data-color data-value");
+		changePlayer();
+	} else {
+		if (startPos[3] < endPos[3]){
+			$("#messageBox").html(startPos[2] + " " + startPos[3] + " attacked " + endPos[2] + " " + endPos[3] + ". He wins!");
+			movePiece();
+		} else {
+			$("#messageBox").html(startPos[2] + " " + startPos[3] + " attacked " + endPos[2] + " " + endPos[3] + ". He lost. And died.");
+			changePlayer();
+		}
 	}
+};
 
-var sameValue = function(){};
+var sameValue = function(){
+	if (startPos[3] === endPos[3]){
+		return true;
+	}
+};
 
 var minerVsBomb = function(){
 	if (gameBoard[endPos[0]][endPos[1]][1] === "b" && gameBoard[startPos[0]][startPos[1]][1] === 8){
@@ -161,14 +199,12 @@ var marshallVsSpy  = function(){
 		return true;
 	}
 };
+var notMarshallVsSpy = function(){
+	if ((startPos[3] !== (1 || 's')) && endPos[3] === 's'){
+		return true;
+	}
+};
 
-
-var twoValues = function(){};
-
-
-
-//checking the outcome of a fight
-var fight = function(){};
 
 //to be run when a player selects a tile
 var moveStart = function(row, col){
@@ -190,7 +226,28 @@ var moveStart = function(row, col){
 var gameStart = function(){};
 
 //to implement a player's move after moveCheck returns true
-var movePiece = function(){};
+var movePiece = function(){
+	console.log('Hit movePiece function');
+	//removes color and piece value attributes from starting div
+	console.log($("[data-row='0'][data-col='0']"));
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"]").removeAttr("data-color data-value");
+	//adds color and piece value attributes to ending div
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"]").attr({"data-color": startPos[2], "data-value": startPos[3]});
+	//adds color to piece div
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"] > div").addClass(startPos[2]);
+	//adds value to value div
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"] > div > div").html(startPos[3]);
+	//updates gameBoard
+	gameBoard[startPos[0]][startPos[1]][0] = 0;
+	gameBoard[startPos[0]][startPos[1]][1] = 0;
+	gameBoard[endPos[0]][endPos[1]][1] = startPos[2];
+	gameBoard[startPos[0]][startPos[1]][1] = startPos[3];
+	//resets variables:
+	startPos = [];
+	endPos = [];
+	//changes player
+	changePlayer();
+};
 
 //to implement if moveCheck returns false
 //var sorry = function(){};

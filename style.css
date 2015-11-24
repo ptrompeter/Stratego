@@ -28,8 +28,53 @@ header {
 	width: 4em;
 	border: 1px dotted black;
 	background-color: #08C934;
-
+	position: relative;
 }
+
+.R {
+	background-color: #E41E05;
+	border: 1px solid black;
+}
+.B {
+	background-color: #0001BC;
+	border: 1px solid black;
+}
+.value {
+	color: #F7C614;
+	font-family: impact;
+	font-size: 22px;
+	text-align: center;
+	vertical-align: center;
+	display: none;
+}
+
+/*[data-color="R"] {
+	height: 4em;
+	width: 4em;
+	border: 1px dotted black;
+	background-color: red;
+}
+
+*/
 #leftBar > .row {
 	margin-left: 30px;
 }
+#gameBoard > div > div > div {
+	height: 70%;
+	width: 100%;
+	margin-top: 25%;
+	margin-left: 0%;	
+}
+#gameBoard > div > div > div > div {
+	height: 3em;
+	width: 2em;
+	color: #F7C614;
+}
+/*#gameBoard > div > div > .B {
+	background-color: blue;
+	z-index: 1;
+}
+#gameBoard > div > div > .R {
+	background-color: red;
+	z-index: 1;
+}*/
