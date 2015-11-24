@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Stratego!</title>
+<!--  -->
+
+</head>
+
+<body>
+<div id="container">
+	<header class="row">Stratego!</header>
+	<div class="row">
+		<div class="col-sm-2" id="leftBar"> Adding text in left bar just to see it.
+			<div class="row" id="ready-div">
+				<button type="button" class="btn-success" id="ready">Ready!</button>
+				
+			</div>
+			<div class="row" id="setup-div">
+				<button type="button" id="setup" class="btn-info">Setup</button>		
+			</div>
+			<div class="row" id="reset-div">
+				<button type="button" id="reset" class="btn-warning">Reset</button>
+			</div>
+		</div>
+		<div class="col-sm-8" id="gameBoard">
+			<div class="row" id="redSide">Red Side</div>
+			<div class="row" id="row0">
+				<div class="col-sm-1 col-sm-offset-1" data-row='0' data-col='0'></div>
+				<div class="col-sm-1" data-row='0' data-col='1'></div>
+				<div class="col-sm-1" data-row='0' data-col='2'></div>
+				<div class="col-sm-1" data-row='0' data-col='3'></div>
+				<div class="col-sm-1" data-row='0' data-col='4'></div>
+				<div class="col-sm-1" data-row='0' data-col='5'></div>
+				<div class="col-sm-1" data-row='0' data-col='6'></div>
+				<div class="col-sm-1" data-row='0' data-col='7'></div>
+				<div class="col-sm-1" data-row='0' data-col='8'></div>
+				<div class="col-sm-1" data-row='0' data-col='9'></div>
+			</div>
+			<div class="row" id="row1">
+				<div class="col-sm-1 col-sm-offset-1" data-row='1' data-col='0'></div>
+				<div class="col-sm-1" data-row='1' data-col='1'></div>
+				<div class="col-sm-1" data-row='1' data-col='2'></div>
+				<div class="col-sm-1" data-row='1' data-col='3'></div>
+				<div class="col-sm-1" data-row='1' data-col='4'></div>
+				<div class="col-sm-1" data-row='1' data-col='5'></div>
+				<div class="col-sm-1" data-row='1' data-col='6'></div>
+				<div class="col-sm-1" data-row='1' data-col='7'></div>
+				<div class="col-sm-1" data-row='1' data-col='8'></div>
+				<div class="col-sm-1" data-row='1' data-col='9'></div>
+			</div>
+			<div class="row" id="row2">
+				<div class="col-sm-1 col-sm-offset-1" data-row='2' data-col='0'></div>
+				<div class="col-sm-1" data-row='2' data-col='1'></div>
+				<div class="col-sm-1" data-row='2' data-col='2'></div>
+				<div class="col-sm-1" data-row='2' data-col='3'></div>
+				<div class="col-sm-1" data-row='2' data-col='4'></div>
+				<div class="col-sm-1" data-row='2' data-col='5'></div>
+				<div class="col-sm-1" data-row='2' data-col='6'></div>
+				<div class="col-sm-1" data-row='2' data-col='7'></div>
+				<div class="col-sm-1" data-row='2' data-col='8'></div>
+				<div class="col-sm-1" data-row='2' data-col='9'></div>
+			</div>
+			<div class="row" id="row3">
+				<div class="col-sm-1 col-sm-offset-1" data-row='3' data-col='0'></div>
+				<div class="col-sm-1" data-row='3' data-col='1'></div>
+				<div class="col-sm-1" data-row='3' data-col='2'></div>
+				<div class="col-sm-1" data-row='3' data-col='3'></div>
+				<div class="col-sm-1" data-row='3' data-col='4'></div>
+				<div class="col-sm-1" data-row='3' data-col='5'></div>
+				<div class="col-sm-1" data-row='3' data-col='6'></div>
+				<div class="col-sm-1" data-row='3' data-col='7'></div>
+				<div class="col-sm-1" data-row='3' data-col='8'></div>
+				<div class="col-sm-1" data-row='3' data-col='9'></div>
+			</div>
+			<div class="row" id="row4">
+				<div class="col-sm-1 col-sm-offset-1" data-row='4' data-col='0'></div>
+				<div class="col-sm-1" data-row='4' data-col='1'></div>
+				<div class="col-sm-1 lake" data-row='4' data-col='2'></div>
+				<div class="col-sm-1 lake" data-row='4' data-col='3'></div>
+				<div class="col-sm-1" data-row='4' data-col='4'></div>
+				<div class="col-sm-1" data-row='4' data-col='5'></div>
+				<div class="col-sm-1 lake" data-row='4' data-col='6'></div>
+				<div class="col-sm-1 lake" data-row='4' data-col='7'></div>
+				<div class="col-sm-1" data-row='4' data-col='8'></div>
+				<div class="col-sm-1" data-row='4' data-col='9'></div>
+			</div>
+			<div class="row" id="row5">
+				<div class="col-sm-1 col-sm-offset-1" data-row='5' data-col='0'></div>
+				<div class="col-sm-1" data-row='5' data-col='1'></div>
+				<div class="col-sm-1 lake" data-row='5' data-col='2'></div>
+				<div class="col-sm-1 lake" data-row='5' data-col='3'></div>
+				<div class="col-sm-1" data-row='5' data-col='4'></div>
+				<div class="col-sm-1" data-row='5' data-col='5'></div>
+				<div class="col-sm-1 lake" data-row='5' data-col='6'></div>
+				<div class="col-sm-1 lake" data-row='5' data-col='7'></div>
+				<div class="col-sm-1" data-row='5' data-col='8'></div>
+				<div class="col-sm-1" data-row='5' data-col='9'></div>
+			</div>
+			<div class="row" id="row6">
+				<div class="col-sm-1 col-sm-offset-1" data-row='6' data-col='0'></div>
+				<div class="col-sm-1" data-row='6' data-col='1'></div>
+				<div class="col-sm-1" data-row='6' data-col='2'></div>
+				<div class="col-sm-1" data-row='6' data-col='3'></div>
+				<div class="col-sm-1" data-row='6' data-col='4'></div>
+				<div class="col-sm-1" data-row='6' data-col='5'></div>
+				<div class="col-sm-1" data-row='6' data-col='6'></div>
+				<div class="col-sm-1" data-row='6' data-col='7'></div>
+				<div class="col-sm-1" data-row='6' data-col='8'></div>
+				<div class="col-sm-1" data-row='6' data-col='9'></div>
+			</div>
+			<div class="row" id="row7">
+				<div class="col-sm-1 col-sm-offset-1" data-row='7' data-col='0'></div>
+				<div class="col-sm-1" data-row='7' data-col='1'></div>
+				<div class="col-sm-1" data-row='7' data-col='2'></div>
+				<div class="col-sm-1" data-row='7' data-col='3'></div>
+				<div class="col-sm-1" data-row='7' data-col='4'></div>
+				<div class="col-sm-1" data-row='7' data-col='5'></div>
+				<div class="col-sm-1" data-row='7' data-col='6'></div>
+				<div class="col-sm-1" data-row='7' data-col='7'></div>
+				<div class="col-sm-1" data-row='7' data-col='8'></div>
+				<div class="col-sm-1" data-row='7' data-col='9'></div>
+			</div>
+			<div class="row" id="row8">
+				<div class="col-sm-1 col-sm-offset-1" data-row='8' data-col='0'></div>
+				<div class="col-sm-1" data-row='8' data-col='1'></div>
+				<div class="col-sm-1" data-row='8' data-col='2'></div>
+				<div class="col-sm-1" data-row='8' data-col='3'></div>
+				<div class="col-sm-1" data-row='8' data-col='4'></div>
+				<div class="col-sm-1" data-row='8' data-col='5'></div>
+				<div class="col-sm-1" data-row='8' data-col='6'></div>
+				<div class="col-sm-1" data-row='8' data-col='7'></div>
+				<div class="col-sm-1" data-row='8' data-col='8'></div>
+				<div class="col-sm-1" data-row='8' data-col='9'></div>
+			</div>
+			<div class="row" id="row9">
+				<div class="col-sm-1 col-sm-offset-1" data-row='9' data-col='0'></div>
+				<div class="col-sm-1" data-row='9' data-col='1'></div>
+				<div class="col-sm-1" data-row='9' data-col='2'></div>
+				<div class="col-sm-1" data-row='9' data-col='3'></div>
+				<div class="col-sm-1" data-row='9' data-col='4'></div>
+				<div class="col-sm-1" data-row='9' data-col='5'></div>
+				<div class="col-sm-1" data-row='9' data-col='6'></div>
+				<div class="col-sm-1" data-row='9' data-col='7'></div>
+				<div class="col-sm-1" data-row='9' data-col='8'></div>
+				<div class="col-sm-1" data-row='9' data-col='9'></div>
+			</div>
+			<div class="row" id="blueSide">Blue Side</div>
+		</div>
+		<div class="col-sm-2" id="rightBar">
+			<div class="row" id="messageBox">Right side dummy text</div>
+		</div>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="script.js">
+
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+header {
+	text-align: center;
+	font-family: impact;
+	font-size: 24px;
+	font-weight: bold;
+	background-color: #0B13A2;
+	color: #E10A28;
+}
+#redSide {
+	text-align: center;
+	color: #E10A28;
+	background-color: #50525C;
+	font-size: 16px;
+
+}
+#blueSide {
+	text-align: center;
+	color: #0B13A2;
+	background-color: #50525C;
+	font-size: 16px;
+
+}
+
+#gameBoard >div > .lake {background-color: #0D53C9;}
+
+#gameBoard > div > div {
+	height: 4em;
+	width: 4em;
+	border: 1px dotted black;
+	background-color: #08C934;
+
+}
+#leftBar > .row {
+	margin-left: 30px;
+}
