@@ -385,6 +385,13 @@ var movePiece = function(){
 	changePlayer();
 };
 
+function win(){
+	if (playerTurn === "R"){
+		("#messageBox").html("Red player captured the Blue Flag!  Red wins!");
+	} else {("#messageBox").html("Blue player captured the Red Flag!  Blue wins!");
+	}
+}
+
 var gamePieces = {
 	1: 0,
 	2: 0,
