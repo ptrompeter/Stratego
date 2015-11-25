@@ -1,5 +1,18 @@
 
-var startPos = []
+var startPos = [];
+var gameBoard = [
+	[["R",2],["B",4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+];
+
 
 $(document).ready(function(){
 	console.log("ready");
@@ -15,18 +28,18 @@ var endPos = [];
 var gamePhase = "setup";
 
 //making a game board as an array
-var gameBoard = [
-	[["R",2],["B",4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
-	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
-];
+// var gameBoard = [
+// 	[["R",2],["B",4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+// 	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+// 	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+// ];
 
 
 
@@ -56,26 +69,58 @@ $("#gameBoard > div > div").click(function(){
 //adding event listener to red box starting squares
 $("#redStartBox > div > div").click(function(){
 	if (gamePhase === "setup" && playerTurn === "R"){
-		if ($(this).html() === "S" || "F" || "B"){
-			startPos = [0,0,"R",($(this).html())];
-			console.log(startPos);
-		} else {
-		startPos = [0,0,"R",parseInt($(this).html())];
+		startPos = [0,0,"R",($(this).html())];
 		console.log(startPos);
-		}
+
 		if (!isNaN(parseInt(startPos[3]))){
 			startPos[3] = parseInt(startPos[3]);
-			console.log(startPos)
+			console.log(startPos);
 		}
 	}
 });
 
 $("#blueStartBox > div > div").click(function(){
 	if (gamePhase === "setup" && playerTurn === "B"){
-	startPos=[0,0,"B",parseInt($(this).html())];
-	console.log(startPos);
-	}
+		startPos = [0,0,"B",($(this).html())];
+		console.log(startPos);
 
+		if (!isNaN(parseInt(startPos[3]))){
+			startPos[3] = parseInt(startPos[3]);
+			console.log(startPos);
+		}
+	}
+});
+
+$("#ready").click(function(){
+	if (gamePhase === "setup"){
+		if (playerTurn === "R"){
+			// if (setupCheck()){
+				playerTurn = "B";
+				$("#messageBox").html("Blue player, your turn! Click 'ready' when your setup is complete!");
+			// }
+			startPos=[];
+		} else {
+			// if (setupCheck()){
+				gamePhase = "play";
+				playerTurn = "R";
+				$("#messageBox").html("Red player goes first.");
+			// }
+			startPos=[];
+		}
+	}
+});
+
+$("#hidePieces").click(function(){
+	hideValues();
+});
+
+$("#showPieces").click(function(){
+	console.log('show pieces')
+	if (playerTurn === "R"){
+		showRedValues();
+	} else {
+		showBlueValues();
+	}
 });
 
 function addToBoard(row, col, e){
@@ -86,7 +131,7 @@ function addToBoard(row, col, e){
 		gameBoard[startPos[0]][startPos[1]][1] = startPos[3];
 		addToCss(e);
 	} else {
-		("#messageBox").html("Tiles can only be played on your side of the board.");
+		$("#messageBox").html("Pieces can only be played on your side of the board.");
 	}
 }
 
@@ -99,6 +144,7 @@ function addToCss(e){
 function changePlayer() {
 	startPos = [];
 	endPos = [];
+	hideValues();
 	if (playerTurn === "R"){
 		playerTurn = "B";
 		//$("#messageBox").html("Blue's Turn!");
@@ -107,6 +153,25 @@ function changePlayer() {
 		//$("#messageBox").html("Red's Turn!");
 	}
 }
+
+function showRedValues(){
+	$(".R").children().each(function(i){
+		$(this).show();
+	});
+}
+
+function showBlueValues(){
+	$(".B").children().each(function(i){	
+		$(this).show();
+	});
+}
+
+function hideValues(){
+	$(".value").each(function(i){
+		$(this).hide();
+	});
+}
+
 
 //checking the legality of a move
 var moveCheck = function(row, col){
@@ -223,7 +288,7 @@ var emptyStartSquare = function(){
 	//removes color class
 	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"] > div").removeClass(startPos[2]);
 	//adds value text and hides
-	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"] > div > div").html();
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"] > div > div").html("");
 };
 
 var emptyEndSquare = function()	{
@@ -312,13 +377,83 @@ var movePiece = function(){
 	gameBoard[startPos[0]][startPos[1]][0] = 0;
 	gameBoard[startPos[0]][startPos[1]][1] = 0;
 	gameBoard[endPos[0]][endPos[1]][0] = startPos[2];
-	gameBoard[startPos[0]][startPos[1]][1] = startPos[3];
+	gameBoard[endPos[0]][endPos[1]][1] = startPos[3];
 	//resets variables:
 	startPos = [];
 	endPos = [];
 	//changes player
 	changePlayer();
 };
+
+var gamePieces = {
+	1: 0,
+	2: 0,
+	3: 0,
+	4: 0,
+	5: 0,
+	6: 0,
+	7: 0,
+	8: 0,
+	9: 0,
+	's': 0,
+	'f': 0,
+	'b': 0
+};
+
+var corretSetup = {
+	1: 1,
+	2: 1,
+	3: 2,
+	4: 3,
+	5: 4,
+	6: 4,
+	7: 4,
+	8: 5,
+	9: 8,
+	's': 1,
+	'f': 1,
+	'b': 6
+}
+
+
+
+function gamePiecesBuilder(color){
+	for (i=0; i < gameBoard.length; i++){
+		console.log("i loop");
+		for (j=0; j < gameBoard[i].length; i++){
+			console.log("j loop");
+			if (gameBoard[i][j][0] === color){
+				gamePieces[gameBoard[i][j][1]]++;
+			}
+		}
+	}
+}
+function setupCheck(){
+	gamePiecesBuilder(playerTurn);
+	if(gamePieices === correctSetup){
+		console.log("setup passed");
+		return true;
+
+	} else{
+		$("#messageBox").html("there is a problem with your setup.  Remember: one 1, one 2, two 3s, three 4s, four 5-7s, five 8s, eight 9s, one S, one F, six Bs.");
+	}
+	gamePieces = {
+		1: 0,
+		2: 0,
+		3: 0,
+		4: 0,
+		5: 0,
+		6: 0,
+		7: 0,
+		8: 0,
+		9: 0,
+		's': 0,
+		'f': 0,
+		'b': 0
+		
+	};
+
+}
 
 //to implement if moveCheck returns false
 //var sorry = function(){};
