@@ -45,7 +45,7 @@ header {
 	font-size: 22px;
 	text-align: center;
 	vertical-align: center;
-	display: none;
+	/*display: none;*/
 }
 
 /*[data-color="R"] {
@@ -63,12 +63,37 @@ header {
 	height: 70%;
 	width: 100%;
 	margin-top: 25%;
-	margin-left: 0%;	
+	margin-left: 0%;
+	position: relative;	
 }
 #gameBoard > div > div > div > div {
 	height: 3em;
 	width: 2em;
 	color: #F7C614;
+	margin-left: -45%;
+}
+#redStartBox > div > div {
+	height: 4em;
+	color: #F7C614;
+	background-color: #E41E05;
+	text-align: center;
+	border: 1px solid black;
+	font-family: impact;
+	font-size: 16px;
+	padding: 1em;
+}
+#blueStartBox > div > div {
+	height: 4em;
+	color: #F7C614;
+	background-color: #0001BC;
+	text-align: center;
+	border: 1px solid black;
+	font-family: impact;
+	font-size: 16px;
+	padding: 1em;
+}
+#messageBox {
+	min-height: 10em;
 }
 /*#gameBoard > div > div > .B {
 	background-color: blue;

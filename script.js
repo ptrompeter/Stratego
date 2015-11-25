@@ -1,7 +1,32 @@
+
+var startPos = []
+
 $(document).ready(function(){
 	console.log("ready");
 
 //NOTHING STARTED: WRITE A CLOSURE TO TRIGGER GAMESTART FUNCTION
+// setting the current player's turn
+var playerTurn = "R";
+// the starting position of a move
+//var startPos = [];
+// the ending position of a move
+var endPos = [];
+// setting phase for set-up or play
+var gamePhase = "setup";
+
+//making a game board as an array
+var gameBoard = [
+	[["R",2],["B",4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+];
 
 
 
@@ -19,28 +44,57 @@ $("#gameBoard > div > div").click(function(){
 			moveCheck(row, col);
 		}
 	}
+	if (gamePhase === "setup"){
+		if(startPos.length === 0){
+			$("#messageBox").html("Please select a piece from your set-up box.");
+		} else {
+			addToBoard(row, col, e);
+
+		}
+	}
 });
-//making a game board as an array
-var gameBoard = [
-	[["R",1],["B",1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
-	[[0,0],[0,0],["L",0],["L",0],[0,0],[0,0],["L",0],["L",0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-	[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
-];
-// setting the current player's turn
-var playerTurn = "R";
-// the starting position of a move
-var startPos = [];
-// the ending position of a move
-var endPos = [];
-// setting phase for set-up or play
-var gamePhase = "play";
+//adding event listener to red box starting squares
+$("#redStartBox > div > div").click(function(){
+	if (gamePhase === "setup" && playerTurn === "R"){
+		if ($(this).html() === "S" || "F" || "B"){
+			startPos = [0,0,"R",($(this).html())];
+			console.log(startPos);
+		} else {
+		startPos = [0,0,"R",parseInt($(this).html())];
+		console.log(startPos);
+		}
+		if (!isNaN(parseInt(startPos[3]))){
+			startPos[3] = parseInt(startPos[3]);
+			console.log(startPos)
+		}
+	}
+});
+
+$("#blueStartBox > div > div").click(function(){
+	if (gamePhase === "setup" && playerTurn === "B"){
+	startPos=[0,0,"B",parseInt($(this).html())];
+	console.log(startPos);
+	}
+
+});
+
+function addToBoard(row, col, e){
+	startPos[0]=parseInt(row);
+	startPos[1]=parseInt(col);
+	if ((playerTurn === "R" && row < 4) || (playerTurn === "B" && row > 5)){
+		gameBoard[startPos[0]][startPos[1]][0] = startPos[2];
+		gameBoard[startPos[0]][startPos[1]][1] = startPos[3];
+		addToCss(e);
+	} else {
+		("#messageBox").html("Tiles can only be played on your side of the board.");
+	}
+}
+
+function addToCss(e){
+	e.find('.color').addClass(startPos[2]);
+	e.find('.color > .value').html(startPos[3]);
+}
+
 
 function changePlayer() {
 	startPos = [];
@@ -126,8 +180,8 @@ function checkMoveleft(){
 // 	}
 // }
 var fightCheck = function(){
-	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"]").removeAttr("data-color data-value");
-	
+	emptyStartSquare();
+
 	if (gameBoard[endPos[0]][endPos[1]][1] === "f"){
 		win();
 	} else if (nonMinerVsBomb()){
@@ -151,7 +205,7 @@ var fightCheck = function(){
 		movePiece();
 	} else if (sameValue()){
 		$("#messageBox").html(startPos[2] + " " + startPos[3] + " attacked " + endPos[2] + " " + endPos[3] + ". They both died.");
-		$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"]").removeAttr("data-color data-value");
+		emptyEndSquare();
 		changePlayer();
 	} else {
 		if (startPos[3] < endPos[3]){
@@ -162,6 +216,23 @@ var fightCheck = function(){
 			changePlayer();
 		}
 	}
+};
+var emptyStartSquare = function(){
+	//removes grid attributes
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"]").removeAttr("data-color data-value");
+	//removes color class
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"] > div").removeClass(startPos[2]);
+	//adds value text and hides
+	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"] > div > div").html();
+};
+
+var emptyEndSquare = function()	{
+//removes grid attributes
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"]").removeAttr("data-color data-value");
+	//removes color class
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"] > div").removeClass(endPos[2]);
+	//adds value text and hides
+	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"] > div > div").html();
 };
 
 var sameValue = function(){
@@ -195,7 +266,7 @@ var spyVsNotMarshall = function(){
 };
 
 var marshallVsSpy  = function(){
-	if (gameBoard[startPos[0]][startPos[1]][1] === 1 && gameBoard[endPos[0]][endPos[1]][1] === 1){
+	if (gameBoard[startPos[0]][startPos[1]][1] === 1 && gameBoard[endPos[0]][endPos[1]][1] === "s"){
 		return true;
 	}
 };
@@ -230,7 +301,7 @@ var movePiece = function(){
 	console.log('Hit movePiece function');
 	//removes color and piece value attributes from starting div
 	console.log($("[data-row='0'][data-col='0']"));
-	$("[data-row="+startPos[0]+"][data-col="+startPos[1]+"]").removeAttr("data-color data-value");
+	emptyStartSquare();
 	//adds color and piece value attributes to ending div
 	$("[data-row="+endPos[0]+"][data-col="+endPos[1]+"]").attr({"data-color": startPos[2], "data-value": startPos[3]});
 	//adds color to piece div
@@ -240,7 +311,7 @@ var movePiece = function(){
 	//updates gameBoard
 	gameBoard[startPos[0]][startPos[1]][0] = 0;
 	gameBoard[startPos[0]][startPos[1]][1] = 0;
-	gameBoard[endPos[0]][endPos[1]][1] = startPos[2];
+	gameBoard[endPos[0]][endPos[1]][0] = startPos[2];
 	gameBoard[startPos[0]][startPos[1]][1] = startPos[3];
 	//resets variables:
 	startPos = [];
@@ -253,8 +324,8 @@ var movePiece = function(){
 //var sorry = function(){};
 
 //Sean's advice: pass "this down the chain for the orginial function." Reach the 1st click with this., reach the second click with .closest, looking for the specifc row and col data of the target.
-
-
+//
+//SETUP
 
 
 
